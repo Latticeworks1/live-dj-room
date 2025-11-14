@@ -84,9 +84,16 @@ npm start             # Start server on port 3000
 npm run dev           # Start with nodemon (auto-reload)
 ```
 
+**Quick Start (from project root):**
+```bash
+./start-server.sh     # Loads nvm and starts server
+```
+
 ### Access
-- Main app: http://localhost:3000
-- Uploaded files: http://localhost:3000/uploads/
+- **Local**: http://localhost:3000
+- **Public Domain**: http://lyricai.latticeworks-ai.com:3000
+- **Public IP**: http://34.171.102.29:3000
+- **Uploaded files**: http://localhost:3000/uploads/
 
 ### Testing Locally
 1. Start server in one terminal
@@ -201,9 +208,12 @@ Audio files stored in: `client/uploads/`
 ## Deployment Information
 
 ### Current Deployment
+- **Domain**: lyricai.latticeworks-ai.com
 - **Public IP**: 34.171.102.29
 - **Port**: 3000
-- **URL**: http://34.171.102.29:3000
+- **Public URLs**:
+  - http://lyricai.latticeworks-ai.com:3000 (domain)
+  - http://34.171.102.29:3000 (direct IP)
 - **Platform**: Google Cloud Platform (Debian-based VM)
 
 ### Server Configuration
@@ -216,6 +226,7 @@ GCP firewall must allow inbound TCP traffic on port 3000:
 - See `FIREWALL-SETUP.md` for configuration steps
 - Rule name: `allow-live-dj-room`
 - Source ranges: `0.0.0.0/0` (public access)
+- **Status**: Check `DOMAIN-STATUS.md` for current firewall status
 
 ### Starting the Server
 Use the provided script:
@@ -231,9 +242,40 @@ export NVM_DIR="$HOME/.nvm"
 npm start
 ```
 
+### Troubleshooting
+
+**Port already in use:**
+```bash
+# Kill existing Node.js processes
+pkill -f "node index.js"
+
+# Or find and kill specific process on port 3000
+lsof -ti:3000 | xargs kill
+```
+
+**Check if server is running:**
+```bash
+ps aux | grep node          # Check Node.js processes
+netstat -tlnp | grep 3000   # Check port 3000 status
+```
+
+**Test public access:**
+```bash
+./verify-access.sh          # Run comprehensive access tests
+# Or manually:
+curl -I http://lyricai.latticeworks-ai.com:3000
+```
+
+**nvm command not found:**
+```bash
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+nvm use 20
+```
+
 ### Production Considerations
 - Add HTTPS/SSL for secure connections (voice/audio requires secure context in browsers)
-- Set up domain name pointing to 34.171.102.29
+- Domain configured: lyricai.latticeworks-ai.com (see `DOMAIN-STATUS.md`)
 - Use process manager (PM2) for auto-restart
 - Configure nginx as reverse proxy
 - Add rate limiting to prevent abuse
