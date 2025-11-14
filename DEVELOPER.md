@@ -480,6 +480,76 @@ git push origin main
 # 4. Now safe to deploy
 ```
 
+### Automated Pre-Commit Hooks
+
+This project uses **Husky** and **lint-staged** to automatically check and fix code quality issues before every commit.
+
+**What runs automatically on commit:**
+
+1. **Emoji Removal** - Removes emojis from code files (preserves in comments)
+2. **Secret Detection** - Scans for API keys, passwords, tokens
+3. **Code Linting** - ESLint checks for code quality issues
+4. **Code Formatting** - Prettier formats code consistently
+5. **Security Checks** - eslint-plugin-security scans for vulnerabilities
+6. **File Size Check** - Warns about files > 500 lines
+7. **Debugger Detection** - Warns about debugger statements
+8. **Socket.IO Event Naming** - Validates event naming conventions
+9. **.env Protection** - Prevents committing .env files
+
+**Example output:**
+```bash
+git commit -m "feat: Add new feature"
+
+🔍 Running pre-commit checks...
+
+⚠️  [index.js] Found 2 emoji(s) - removing...
+✅ [index.js] Cleaned and updated
+
+✅ All pre-commit checks passed!
+
+[main abc1234] feat: Add new feature
+ 1 file changed, 10 insertions(+)
+```
+
+**If checks fail:**
+```bash
+❌ [index.js] SECURITY: Potential API Key detected!
+   Matches: api_key = "sk-abc123..."
+   ⚠️  Remove sensitive data before committing!
+
+❌ Pre-commit checks FAILED - fix errors above
+   Use --no-verify to skip (NOT RECOMMENDED)
+```
+
+**Manual commands:**
+
+```bash
+# Run linter
+cd server
+npm run lint
+
+# Fix linting issues automatically
+npm run lint:fix
+
+# Format all code
+npm run format
+
+# Skip pre-commit hooks (ONLY in emergencies)
+git commit -m "message" --no-verify
+```
+
+**When to skip hooks:**
+
+⚠️ **ONLY skip hooks in emergencies:**
+- Critical production hotfix needed immediately
+- Pre-commit script has a bug
+- Working with generated/external code
+
+**Never skip for:**
+- "I'll fix it later"
+- Linting errors you don't want to fix
+- To save time
+
 ---
 
 ## Making Changes
