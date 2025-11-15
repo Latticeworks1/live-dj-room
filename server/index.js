@@ -7,14 +7,17 @@ const path = require('path');
 const fs = require('fs');
 const port = process.env.PORT || 3000;
 
-// Serve static files
-// Use Parcel build output (dist) if available, otherwise fall back to public
+// Serve static files from Parcel build output
 const distPath = path.join(__dirname, '../client/dist');
-const publicPath = path.join(__dirname, '../client/public');
-const staticPath = fs.existsSync(distPath) ? distPath : publicPath;
 
-console.log(`Serving static files from: ${staticPath}`);
-app.use(express.static(staticPath));
+if (!fs.existsSync(distPath)) {
+  console.error('ERROR: dist/ directory not found!');
+  console.error('Run "npm run build" in the client directory first.');
+  process.exit(1);
+}
+
+console.log(`Serving static files from: ${distPath}`);
+app.use(express.static(distPath));
 app.use('/uploads', express.static(path.join(__dirname, '../client/uploads')));
 
 // Configure file upload

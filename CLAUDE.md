@@ -864,3 +864,4 @@ nvm use 20
 - Configure nginx as reverse proxy
 - Add rate limiting to prevent abuse
 - Implement user authentication
+- use git all the time
