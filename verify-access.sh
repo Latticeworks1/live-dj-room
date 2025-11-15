@@ -77,7 +77,7 @@ if [ "$FIREWALL_OPEN" = true ]; then
     echo -e "${GREEN}SUCCESS!${NC} Your Live DJ Room is publicly accessible!"
     echo ""
     echo "🎉 Share these URLs with friends:"
-    echo "   Domain: http://$DOMAIN:$PORT"
+    echo "   Domain: https://$DOMAIN"
     echo "   IP:     http://$PUBLIC_IP:$PORT"
     echo ""
     echo "Features available:"

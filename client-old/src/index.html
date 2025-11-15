@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Live DJ Room</title>
+  <link rel="stylesheet" href="./style.css">
+  <script src="https://js.puter.com/v2/"></script>
+</head>
+<body>
+  <!-- Login Page -->
+  <div class="login-page">
+    <div class="login-form">
+      <h1>Live DJ Room</h1>
+      <p>Real-time multiplayer collaboration with voice, chat, whiteboard, and music</p>
+      <button class="login-btn">Sign in with Puter</button>
+      <p class="auth-info" id="auth-status">Connecting...</p>
+    </div>
+  </div>
+
+  <!-- Lobby Page -->
+  <div class="lobby-page" style="display: none;">
+    <div class="lobby-header">
+      <h1>Live DJ Rooms</h1>
+      <div class="user-info">
+        <span class="current-user" id="current-user-lobby"></span>
+        <button class="btn-signout" id="btn-signout-lobby">Sign Out</button>
+      </div>
+    </div>
+
+    <div class="lobby-content">
+      <!-- Create Room Section -->
+      <div class="create-room-section">
+        <h2>Create New Room</h2>
+        <input type="text" id="room-name-input" placeholder="Room name..." maxlength="50">
+        <div class="room-settings">
+          <label>
+            Max Users:
+            <input type="number" id="max-users-input" value="10" min="2" max="50">
+          </label>
+          <label>
+            <input type="checkbox" id="private-room-checkbox">
+            Private Room
+          </label>
+          <input type="password" id="room-password-input"
+                 placeholder="Password (optional)"
+                 style="display: none;">
+        </div>
+        <button id="btn-create-room">Create Room</button>
+      </div>
+
+      <!-- Room List Section -->
+      <div class="room-list-section">
+        <h2>Available Rooms</h2>
+        <div class="room-list-controls">
+          <input type="text" id="search-rooms-input" placeholder="Search rooms...">
+          <button id="btn-refresh-rooms">Refresh</button>
+        </div>
+        <div id="room-list" class="room-list">
+          <p class="no-rooms">Loading rooms...</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Room -->
+  <div class="room-page" style="display: none;">
+    <!-- Header -->
+    <div class="room-header">
+      <div class="room-title-section">
+        <h1 id="current-room-name">Live DJ Room</h1>
+        <button class="btn-leave-room" id="btn-leave-room">Leave Room</button>
+      </div>
+      <div class="user-info">
+        <span class="user-count">0 users online</span>
+        <span class="current-user" id="current-user"></span>
+        <button class="btn-signout" id="btn-signout">Sign Out</button>
+      </div>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="room-content">
+      <!-- Left Panel: Audio Player -->
+      <div class="left-panel">
+        <div class="audio-section">
+          <h2>Audio Player</h2>
+          <div class="audio-upload">
+            <input type="file" id="audio-file-input" accept="audio/*" style="display: none;">
+            <button class="btn-upload" onclick="document.getElementById('audio-file-input').click()">
+              Upload Audio
+            </button>
+          </div>
+
+          <div class="audio-player">
+            <audio id="main-audio" controls></audio>
+            <div class="playlist" id="playlist">
+              <h3>Playlist</h3>
+              <div class="playlist-items"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Center Panel: Whiteboard -->
+      <div class="center-panel">
+        <div class="whiteboard-section">
+          <h2>Shared Whiteboard</h2>
+          <div class="whiteboard-controls">
+            <div class="colors">
+              <div class="color black selected" data-color="black"></div>
+              <div class="color red" data-color="red"></div>
+              <div class="color green" data-color="green"></div>
+              <div class="color blue" data-color="blue"></div>
+              <div class="color yellow" data-color="yellow"></div>
+              <div class="color white" data-color="white"></div>
+            </div>
+            <button class="btn-clear-canvas">Clear Canvas</button>
+          </div>
+          <canvas class="whiteboard"></canvas>
+        </div>
+      </div>
+
+      <!-- Right Panel: Chat & Voice -->
+      <div class="right-panel">
+        <div class="chat-section">
+          <h2>Chat</h2>
+          <div class="messages" id="messages"></div>
+
+          <!-- Voice Chat Controls -->
+          <div class="voice-section">
+            <button class="btn-talk" id="btn-talk">Push to Talk</button>
+            <div class="voice-status" id="voice-status"></div>
+          </div>
+
+          <div class="input-area">
+            <input class="message-input" type="text" placeholder="Type a message..." />
+            <button class="send-btn">Send</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="./app.js"></script>
+</body>
+</html>

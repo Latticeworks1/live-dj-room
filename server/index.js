@@ -1,13 +1,23 @@
 const express = require('express');
 const app = express();
 const http = require('http').Server(app);
-const io = require('socket.io')(http);
+const https = require('https');
+const socketIo = require('socket.io');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 const { v4: uuidv4 } = require('uuid');
 const Room = require('./Room');
 const port = process.env.PORT || 3000;
+const httpsPort = process.env.HTTPS_PORT || 443;
+
+// Create Socket.IO instance (will attach to HTTP, and optionally HTTPS)
+const io = socketIo(http, {
+  cors: {
+    origin: '*',
+    methods: ['GET', 'POST'],
+  },
+});
 
 // Serve static files from Parcel build output
 const distPath = path.join(__dirname, '../client/dist');
@@ -386,16 +396,78 @@ io.on('connection', (socket) => {
   });
 });
 
-http.listen(port, '0.0.0.0', () => {
-  console.log('Live DJ Room server listening on port ' + port);
-  console.log('Local: http://localhost:' + port);
-  console.log('');
-  console.log(' Access your server at:');
-  console.log('   - Localhost: http://localhost:' + port);
-  console.log("   - Network: Check your server's IP address");
+// SSL Certificate paths
+const sslCertPath =
+  '/etc/letsencrypt/live/lyricai.latticeworks-ai.com/fullchain.pem';
+const sslKeyPath =
+  '/etc/letsencrypt/live/lyricai.latticeworks-ai.com/privkey.pem';
+
+// Check if SSL certificates exist
+let httpsServer = null;
+let sslAvailable = false;
+
+if (fs.existsSync(sslCertPath) && fs.existsSync(sslKeyPath)) {
+  try {
+    const httpsOptions = {
+      cert: fs.readFileSync(sslCertPath),
+      key: fs.readFileSync(sslKeyPath),
+    };
+
+    httpsServer = https.createServer(httpsOptions, app);
+
+    // Attach Socket.IO to HTTPS server as well
+    io.attach(httpsServer);
+
+    sslAvailable = true;
+    console.log('SSL certificates found and loaded successfully');
+  } catch (error) {
+    console.warn('SSL certificates exist but failed to load:', error.message);
+    console.warn('HTTPS server will not be started');
+  }
+} else {
+  console.log('SSL certificates not found. HTTPS disabled.');
+  console.log('To enable HTTPS, obtain certificates with:');
   console.log(
-    '   - With domain: Configure your domain to point to this server'
+    '  sudo certbot certonly --standalone -d lyricai.latticeworks-ai.com'
   );
+}
+
+// Start HTTP server (always available)
+http.listen(port, '0.0.0.0', () => {
   console.log('');
-  console.log('️  Make sure the port is open in your firewall!');
+  console.log('='.repeat(60));
+  console.log('Live DJ Room Server Started');
+  console.log('='.repeat(60));
+  console.log('');
+  console.log('HTTP Server:');
+  console.log('  - Port: ' + port);
+  console.log('  - Local: http://localhost:' + port);
+  console.log('  - Network: http://34.171.102.29:' + port);
+  console.log('');
+
+  if (sslAvailable && httpsServer) {
+    httpsServer.listen(httpsPort, '0.0.0.0', () => {
+      console.log('HTTPS Server:');
+      console.log('  - Port: ' + httpsPort);
+      console.log('  - Domain: https://lyricai.latticeworks-ai.com');
+      console.log('');
+      console.log('SSL Status:  ENABLED');
+      console.log('');
+      console.log(
+        '️  Make sure ports ' +
+          port +
+          ' and ' +
+          httpsPort +
+          ' are open in your firewall!'
+      );
+      console.log('');
+      console.log('='.repeat(60));
+    });
+  } else {
+    console.log('HTTPS Server: DISABLED (no SSL certificates)');
+    console.log('');
+    console.log('️  Make sure port ' + port + ' is open in your firewall!');
+    console.log('');
+    console.log('='.repeat(60));
+  }
 });

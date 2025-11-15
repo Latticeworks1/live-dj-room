@@ -129,7 +129,7 @@ npm run dev            # Auto-reloads on changes
 ### Access Points
 - **Client dev server**: http://localhost:1234 (Parcel)
 - **Server**: http://localhost:3000
-- **Public domain**: http://lyricai.latticeworks-ai.com:3000
+- **Public domain**: https://lyricai.latticeworks-ai.com
 - **Public IP**: http://34.171.102.29:3000
 
 ## Key Implementation Details
@@ -416,3 +416,4 @@ npm install              # Reinstalls Husky hooks
 - `DOMAIN-STATUS.md` - Deployment status
 - `STATUS.md` - Project status and roadmap
 - remmeber
+- alwys use github and the github rpreomit hooks chces

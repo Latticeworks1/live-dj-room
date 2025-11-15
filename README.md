@@ -75,7 +75,7 @@ Default: `3000` (configurable via `PORT` environment variable)
 
 ## Public Access
 
-**Domain**: http://lyricai.latticeworks-ai.com:3000
+**Domain**: https://lyricai.latticeworks-ai.com
 **IP Address**: http://34.171.102.29:3000
 
 ⚠️ **IMPORTANT**: You need to open port 3000 in your GCP firewall first!
