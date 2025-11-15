@@ -1,0 +1,399 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Login Page */
+.login-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.login-form {
+  background: white;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+.login-form h1 {
+  color: #667eea;
+  margin-bottom: 30px;
+}
+
+.username-input {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  border: 2px solid #ddd;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+.login-btn {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  font-weight: bold;
+  color: white;
+  background: #667eea;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.login-btn:hover {
+  background: #5568d3;
+}
+
+/* Room Page */
+.room-page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.room-header {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 15px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.room-header h1 {
+  color: #667eea;
+  font-size: 24px;
+}
+
+.user-count {
+  color: #666;
+  font-size: 14px;
+}
+
+.room-content {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  padding: 20px;
+  gap: 20px;
+}
+
+/* Panels */
+.left-panel, .center-panel, .right-panel {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+}
+
+.left-panel {
+  flex: 0 0 300px;
+}
+
+.center-panel {
+  flex: 1;
+}
+
+.right-panel {
+  flex: 0 0 350px;
+}
+
+h2 {
+  color: #667eea;
+  font-size: 18px;
+  margin-bottom: 15px;
+}
+
+/* Audio Section */
+.audio-section {
+  margin-bottom: 20px;
+}
+
+.audio-upload {
+  margin-bottom: 15px;
+}
+
+.btn-upload {
+  width: 100%;
+  padding: 10px;
+  background: #667eea;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  transition: background 0.3s;
+}
+
+.btn-upload:hover {
+  background: #5568d3;
+}
+
+.audio-player audio {
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.playlist {
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.playlist h3 {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 10px;
+}
+
+.playlist-items {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.playlist-item {
+  padding: 8px;
+  background: #f5f5f5;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: background 0.2s;
+}
+
+.playlist-item:hover {
+  background: #e0e0e0;
+}
+
+/* Voice Section */
+.voice-section h2 {
+  margin-bottom: 10px;
+}
+
+.btn-talk {
+  width: 100%;
+  padding: 15px;
+  background: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: all 0.3s;
+}
+
+.btn-talk:active, .btn-talk.talking {
+  background: #dc3545;
+  transform: scale(0.98);
+}
+
+.voice-status {
+  margin-top: 10px;
+  padding: 10px;
+  background: #f5f5f5;
+  border-radius: 5px;
+  min-height: 80px;
+  font-size: 13px;
+  color: #666;
+}
+
+.voice-indicator {
+  padding: 5px;
+  margin: 2px 0;
+  background: #e0e0e0;
+  border-radius: 3px;
+}
+
+.voice-indicator.active {
+  background: #28a745;
+  color: white;
+}
+
+/* Whiteboard Section */
+.whiteboard-section {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.whiteboard-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.colors {
+  display: flex;
+  gap: 10px;
+}
+
+.color {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 3px solid transparent;
+  transition: transform 0.2s;
+}
+
+.color:hover {
+  transform: scale(1.1);
+}
+
+.color.selected {
+  border-color: #667eea;
+}
+
+.color.black { background: black; }
+.color.red { background: red; }
+.color.green { background: green; }
+.color.blue { background: blue; }
+.color.yellow { background: yellow; }
+.color.white { background: white; border: 2px solid #ccc; }
+
+.btn-clear-canvas {
+  padding: 8px 15px;
+  background: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.3s;
+}
+
+.btn-clear-canvas:hover {
+  background: #c82333;
+}
+
+.whiteboard {
+  flex: 1;
+  border: 2px solid #ddd;
+  border-radius: 5px;
+  cursor: crosshair;
+  background: white;
+}
+
+/* Chat Section */
+.chat-section {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.messages {
+  flex: 1;
+  overflow-y: auto;
+  margin-bottom: 15px;
+  padding: 10px;
+  background: #f9f9f9;
+  border-radius: 5px;
+}
+
+.message {
+  margin-bottom: 10px;
+  padding: 8px;
+  background: white;
+  border-radius: 5px;
+  word-wrap: break-word;
+}
+
+.message.system {
+  background: #e3f2fd;
+  color: #1976d2;
+  font-style: italic;
+  text-align: center;
+  font-size: 13px;
+}
+
+.message.own {
+  background: #667eea;
+  color: white;
+  margin-left: 20px;
+}
+
+.message .username {
+  font-weight: bold;
+  color: #667eea;
+  margin-bottom: 3px;
+}
+
+.message.own .username {
+  color: #fff;
+}
+
+.message .text {
+  font-size: 14px;
+}
+
+.typing-indicator {
+  font-size: 12px;
+  color: #999;
+  font-style: italic;
+  padding: 5px;
+}
+
+.input-area {
+  display: flex;
+  gap: 10px;
+}
+
+.message-input {
+  flex: 1;
+  padding: 10px;
+  border: 2px solid #ddd;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.send-btn {
+  padding: 10px 20px;
+  background: #667eea;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s;
+}
+
+.send-btn:hover {
+  background: #5568d3;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}

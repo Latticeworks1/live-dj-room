@@ -4,10 +4,17 @@ const http = require('http').Server(app);
 const io = require('socket.io')(http);
 const multer = require('multer');
 const path = require('path');
+const fs = require('fs');
 const port = process.env.PORT || 3000;
 
 // Serve static files
-app.use(express.static(path.join(__dirname, '../client/public')));
+// Use Parcel build output (dist) if available, otherwise fall back to public
+const distPath = path.join(__dirname, '../client/dist');
+const publicPath = path.join(__dirname, '../client/public');
+const staticPath = fs.existsSync(distPath) ? distPath : publicPath;
+
+console.log(`Serving static files from: ${staticPath}`);
+app.use(express.static(staticPath));
 app.use('/uploads', express.static(path.join(__dirname, '../client/uploads')));
 
 // Configure file upload
@@ -16,16 +23,18 @@ const storage = multer.diskStorage({
     cb(null, path.join(__dirname, '../client/uploads'));
   },
   filename: (req, file, cb) => {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
     cb(null, uniqueSuffix + '-' + file.originalname);
-  }
+  },
 });
 
 const upload = multer({
   storage: storage,
   fileFilter: (req, file, cb) => {
     const allowedTypes = /mp3|wav|ogg|webm|m4a/;
-    const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
+    const extname = allowedTypes.test(
+      path.extname(file.originalname).toLowerCase()
+    );
     const mimetype = allowedTypes.test(file.mimetype);
 
     if (mimetype && extname) {
@@ -33,7 +42,7 @@ const upload = multer({
     }
     cb(new Error('Only audio files are allowed!'));
   },
-  limits: { fileSize: 50 * 1024 * 1024 } // 50MB limit
+  limits: { fileSize: 50 * 1024 * 1024 }, // 50MB limit
 });
 
 // Audio upload endpoint
@@ -46,7 +55,7 @@ app.post('/upload-audio', upload.single('audio'), (req, res) => {
     filename: req.file.filename,
     originalName: req.file.originalname,
     url: `/uploads/${req.file.filename}`,
-    size: req.file.size
+    size: req.file.size,
   };
 
   // Broadcast new audio to all clients
@@ -61,7 +70,7 @@ let currentPlayback = {
   url: null,
   playing: false,
   currentTime: 0,
-  startedAt: null
+  startedAt: null,
 };
 
 io.on('connection', (socket) => {
@@ -85,7 +94,7 @@ io.on('connection', (socket) => {
     socket.emit('login', { numUsers });
     socket.broadcast.emit('user joined', {
       username: socket.username,
-      numUsers: numUsers
+      numUsers: numUsers,
     });
   });
 
@@ -93,7 +102,7 @@ io.on('connection', (socket) => {
   socket.on('new message', (data) => {
     socket.broadcast.emit('new message', {
       username: socket.username,
-      message: data
+      message: data,
     });
   });
 
@@ -121,7 +130,7 @@ io.on('connection', (socket) => {
       url: data.url,
       playing: true,
       currentTime: 0,
-      startedAt: Date.now()
+      startedAt: Date.now(),
     };
     socket.broadcast.emit('play audio', data);
   });
@@ -134,7 +143,7 @@ io.on('connection', (socket) => {
 
   socket.on('seek audio', (data) => {
     if (currentPlayback.playing) {
-      currentPlayback.startedAt = Date.now() - (data.currentTime * 1000);
+      currentPlayback.startedAt = Date.now() - data.currentTime * 1000;
     } else {
       currentPlayback.currentTime = data.currentTime;
     }
@@ -146,14 +155,17 @@ io.on('connection', (socket) => {
       url: null,
       playing: false,
       currentTime: 0,
-      startedAt: null
+      startedAt: null,
     };
     socket.broadcast.emit('stop audio');
   });
 
   // Push-to-talk voice
   socket.on('voice start', () => {
-    socket.broadcast.emit('voice start', { userId: socket.id, username: socket.username });
+    socket.broadcast.emit('voice start', {
+      userId: socket.id,
+      username: socket.username,
+    });
   });
 
   socket.on('voice data', (audioData) => {
@@ -170,7 +182,7 @@ io.on('connection', (socket) => {
       --numUsers;
       socket.broadcast.emit('user left', {
         username: socket.username,
-        numUsers: numUsers
+        numUsers: numUsers,
       });
     }
     console.log('User disconnected:', socket.id);
@@ -181,10 +193,12 @@ http.listen(port, '0.0.0.0', () => {
   console.log('Live DJ Room server listening on port ' + port);
   console.log('Local: http://localhost:' + port);
   console.log('');
-  console.log('💡 Access your server at:');
+  console.log(' Access your server at:');
   console.log('   - Localhost: http://localhost:' + port);
-  console.log('   - Network: Check your server\'s IP address');
-  console.log('   - With domain: Configure your domain to point to this server');
+  console.log("   - Network: Check your server's IP address");
+  console.log(
+    '   - With domain: Configure your domain to point to this server'
+  );
   console.log('');
-  console.log('⚠️  Make sure the port is open in your firewall!');
+  console.log('️  Make sure the port is open in your firewall!');
 });

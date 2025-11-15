@@ -1,0 +1,19 @@
+{
+  "name": "live-dj-room-client",
+  "version": "1.0.0",
+  "description": "Live DJ Room client with Parcel bundler",
+  "scripts": {
+    "start": "parcel serve src/index.html",
+    "build": "parcel build src/index.html",
+    "postbuild": "./verify-deployment.sh",
+    "clean": "rm -rf dist .parcel-cache"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "parcel": "^2.9.3"
+  },
+  "dependencies": {
+    "socket.io-client": "^4.5.4"
+  }
+}

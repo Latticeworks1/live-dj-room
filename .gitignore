@@ -36,3 +36,7 @@ Thumbs.db
 # Temporary files
 *.tmp
 .cache/
+
+# Parcel build output
+client/dist/
+client/.parcel-cache/
