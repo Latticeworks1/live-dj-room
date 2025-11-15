@@ -1,7 +1,8 @@
-// Chat module
+// Chat module - Refactored with components
 import { socket } from './socket.js';
-import { escapeHtml } from './utils.js';
-import { getUsername, isConnected, setConnected } from './login.js';
+import { Message } from '../components/Message.js';
+import { getUsername, isConnected } from './auth.js';
+import { appState } from '../core/State.js';
 
 const messagesEl = document.getElementById('messages');
 const messageInput = document.querySelector('.message-input');
@@ -38,17 +39,19 @@ export function initChat() {
   socket.on('typing', (data) => {
     const indicator = document.querySelector('.typing-indicator');
     if (!indicator) {
-      const el = document.createElement('div');
-      el.className = 'typing-indicator';
-      el.textContent = `${data.username} is typing...`;
-      messagesEl.appendChild(el);
-      messagesEl.scrollTop = messagesEl.scrollHeight;
+      Message.typing(data.username).mount(messagesEl);
+      scrollToBottom();
     }
   });
 
   socket.on('stop typing', () => {
     const indicator = document.querySelector('.typing-indicator');
     if (indicator) indicator.remove();
+  });
+
+  // Subscribe to userCount state changes
+  appState.subscribe('userCount', (count) => {
+    updateUserCount(count);
   });
 }
 
@@ -82,24 +85,20 @@ function sendMessage() {
 }
 
 function addChatMessage(user, message, isOwn = false) {
-  const messageEl = document.createElement('div');
-  messageEl.className = 'message' + (isOwn ? ' own' : '');
-  messageEl.innerHTML = `
-    <div class="username">${escapeHtml(user)}</div>
-    <div class="text">${escapeHtml(message)}</div>
-  `;
-  messagesEl.appendChild(messageEl);
-  messagesEl.scrollTop = messagesEl.scrollHeight;
+  Message.user(user, message, isOwn).mount(messagesEl);
+  scrollToBottom();
 }
 
 export function addSystemMessage(message) {
-  const messageEl = document.createElement('div');
-  messageEl.className = 'message system';
-  messageEl.textContent = message;
-  messagesEl.appendChild(messageEl);
-  messagesEl.scrollTop = messagesEl.scrollHeight;
+  Message.system(message).mount(messagesEl);
+  scrollToBottom();
 }
 
 export function updateUserCount(count) {
+  appState.set('userCount', count);
   userCountEl.textContent = `${count} user${count !== 1 ? 's' : ''} online`;
+}
+
+function scrollToBottom() {
+  messagesEl.scrollTop = messagesEl.scrollHeight;
 }

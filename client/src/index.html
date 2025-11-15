@@ -5,14 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Live DJ Room</title>
   <link rel="stylesheet" href="./style.css">
+  <script src="https://js.puter.com/v2/"></script>
 </head>
 <body>
   <!-- Login Page -->
   <div class="login-page">
     <div class="login-form">
       <h1>Live DJ Room</h1>
-      <input class="username-input" type="text" maxlength="14" placeholder="Enter your username..." />
-      <button class="login-btn">Join Room</button>
+      <p>Real-time multiplayer collaboration with voice, chat, whiteboard, and music</p>
+      <button class="login-btn">Sign in with Puter</button>
+      <p class="auth-info" id="auth-status">Connecting...</p>
     </div>
   </div>
 
@@ -23,6 +25,8 @@
       <h1>Live DJ Room</h1>
       <div class="user-info">
         <span class="user-count">0 users online</span>
+        <span class="current-user" id="current-user"></span>
+        <button class="btn-signout" id="btn-signout">Sign Out</button>
       </div>
     </div>
 
