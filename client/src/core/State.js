@@ -52,4 +52,11 @@ export const appState = new State({
   connected: false,
   typing: false,
   userCount: 0,
+
+  // Room state
+  currentRoomId: null,
+  currentRoomName: '',
+  currentRoomHost: '',
+  isHost: false,
+  rooms: [], // Array of available rooms in lobby
 });

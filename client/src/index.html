@@ -18,11 +18,59 @@
     </div>
   </div>
 
+  <!-- Lobby Page -->
+  <div class="lobby-page" style="display: none;">
+    <div class="lobby-header">
+      <h1>Live DJ Rooms</h1>
+      <div class="user-info">
+        <span class="current-user" id="current-user-lobby"></span>
+        <button class="btn-signout" id="btn-signout-lobby">Sign Out</button>
+      </div>
+    </div>
+
+    <div class="lobby-content">
+      <!-- Create Room Section -->
+      <div class="create-room-section">
+        <h2>Create New Room</h2>
+        <input type="text" id="room-name-input" placeholder="Room name..." maxlength="50">
+        <div class="room-settings">
+          <label>
+            Max Users:
+            <input type="number" id="max-users-input" value="10" min="2" max="50">
+          </label>
+          <label>
+            <input type="checkbox" id="private-room-checkbox">
+            Private Room
+          </label>
+          <input type="password" id="room-password-input"
+                 placeholder="Password (optional)"
+                 style="display: none;">
+        </div>
+        <button id="btn-create-room">Create Room</button>
+      </div>
+
+      <!-- Room List Section -->
+      <div class="room-list-section">
+        <h2>Available Rooms</h2>
+        <div class="room-list-controls">
+          <input type="text" id="search-rooms-input" placeholder="Search rooms...">
+          <button id="btn-refresh-rooms">Refresh</button>
+        </div>
+        <div id="room-list" class="room-list">
+          <p class="no-rooms">Loading rooms...</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Main Room -->
   <div class="room-page" style="display: none;">
     <!-- Header -->
     <div class="room-header">
-      <h1>Live DJ Room</h1>
+      <div class="room-title-section">
+        <h1 id="current-room-name">Live DJ Room</h1>
+        <button class="btn-leave-room" id="btn-leave-room">Leave Room</button>
+      </div>
       <div class="user-info">
         <span class="user-count">0 users online</span>
         <span class="current-user" id="current-user"></span>

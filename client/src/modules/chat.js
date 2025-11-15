@@ -49,9 +49,9 @@ export function initChat() {
     if (indicator) indicator.remove();
   });
 
-  // Subscribe to userCount state changes
+  // Subscribe to userCount state changes to update UI
   appState.subscribe('userCount', (count) => {
-    updateUserCount(count);
+    userCountEl.textContent = `${count} user${count !== 1 ? 's' : ''} online`;
   });
 }
 
