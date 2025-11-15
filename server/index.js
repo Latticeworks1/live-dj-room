@@ -134,20 +134,30 @@ io.on('connection', (socket) => {
       return callback({ success: false, error: 'Not authenticated' });
     }
 
-    // Prevent joining if already in a room
-    if (socket.currentRoom) {
-      if (socket.currentRoom === roomId) {
-        console.log(`${socket.username} already in room "${roomId}"`);
-        return callback({ success: false, error: 'Already in this room' });
+    // If already in the requested room, return success (idempotent)
+    if (socket.currentRoom === roomId) {
+      const room = rooms.get(roomId);
+      if (room) {
+        console.log(
+          `${socket.username} already in room "${roomId}" - returning success`
+        );
+        return callback({ success: true, room: room.toJSON() });
       }
+    }
+
+    // If in a different room, leave it first
+    if (socket.currentRoom && socket.currentRoom !== roomId) {
       console.log(
         `${socket.username} leaving room "${socket.currentRoom}" to join "${roomId}"`
       );
-      // Auto-leave current room
       const currentRoom = rooms.get(socket.currentRoom);
       if (currentRoom) {
         currentRoom.removeUser(socket.id);
         socket.leave(socket.currentRoom);
+        socket.to(socket.currentRoom).emit('user left', {
+          username: socket.username,
+          numUsers: currentRoom.getUserCount(),
+        });
       }
     }
 
