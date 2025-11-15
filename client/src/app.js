@@ -6,10 +6,36 @@ import { initAudio } from './modules/audio.js';
 import { initVoice } from './modules/voice.js';
 import { initLobby, leaveRoom } from './modules/lobby.js';
 import { appState } from './core/State.js';
+import { pageManager } from './core/PageManager.js';
+import { router } from './core/Router.js';
 
 // Initialize the application
 (async function() {
   'use strict';
+
+  // Register pages early
+  pageManager
+    .register('login', '.login-page')
+    .register('lobby', '.lobby-page')
+    .register('room', '.room-page');
+
+  // Register routes
+  router
+    .register('/', () => {
+      console.log('[Router] Navigating to login');
+      pageManager.show('login');
+    })
+    .register('/lobby', () => {
+      console.log('[Router] Navigating to lobby');
+      pageManager.show('lobby');
+    })
+    .register('/room/:id', (params) => {
+      console.log('[Router] Navigating to room:', params.id);
+      pageManager.show('room');
+    });
+
+  // Initialize router (handles browser back/forward)
+  router.init();
 
   // Initialize chat and audio (doesn't require auth)
   initChat();

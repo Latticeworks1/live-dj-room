@@ -415,3 +415,4 @@ npm install              # Reinstalls Husky hooks
 - `FIREWALL-SETUP.md` - GCP firewall configuration
 - `DOMAIN-STATUS.md` - Deployment status
 - `STATUS.md` - Project status and roadmap
+- remmeber

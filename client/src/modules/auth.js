@@ -1,5 +1,6 @@
 // Puter.js Authentication Module
 import { pageManager } from '../core/PageManager.js';
+import { router } from '../core/Router.js';
 import { appState } from '../core/State.js';
 import { socket } from './socket.js';
 
@@ -9,12 +10,6 @@ const authStatus = document.getElementById('auth-status');
 const currentUserEl = document.getElementById('current-user');
 
 export async function initAuth(onAuthSuccess) {
-  // Register pages
-  pageManager
-    .register('login', '.login-page')
-    .register('lobby', '.lobby-page')
-    .register('room', '.room-page');
-
   // Wait for Puter to be ready
   await waitForPuter();
 
@@ -38,7 +33,7 @@ export async function initAuth(onAuthSuccess) {
       connected: false,
       username: '',
     });
-    pageManager.show('login');
+    router.navigate('/');
     authStatus.textContent = 'Signed out. Sign in to join the room.';
   });
 
@@ -83,12 +78,12 @@ async function checkAuthStatus(onAuthSuccess) {
     } else {
       console.log('[Auth] User is not signed in');
       authStatus.textContent = 'Sign in to join the room';
-      pageManager.show('login');
+      router.navigate('/');
     }
   } catch (error) {
     console.error('Error checking auth status:', error);
     authStatus.textContent = 'Sign in to join the room';
-    pageManager.show('login');
+    router.navigate('/');
   }
 }
 
@@ -108,8 +103,8 @@ function handleAuthSuccess(user, callback) {
   // Socket event for login confirmation
   socket.once('login', (data) => {
     console.log('[Auth] Received login confirmation from server:', data);
-    console.log('[Auth] Showing lobby page...');
-    pageManager.show('lobby');
+    console.log('[Auth] Navigating to lobby...');
+    router.navigate('/lobby');
     callback(data);
   });
 }

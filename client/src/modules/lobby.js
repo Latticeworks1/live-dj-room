@@ -2,6 +2,7 @@
 import { socket } from './socket.js';
 import { appState } from '../core/State.js';
 import { pageManager } from '../core/PageManager.js';
+import { router } from '../core/Router.js';
 import { RoomCard } from '../components/RoomCard.js';
 
 let refreshInterval;
@@ -59,7 +60,7 @@ export function initLobby() {
       currentRoomId: null,
     });
     isInitialized = false;
-    pageManager.show('login');
+    router.navigate('/');
   });
 
   // Remove any existing socket listeners before adding new ones
@@ -170,7 +171,7 @@ function enterRoom(room) {
   });
 
   stopAutoRefresh();
-  pageManager.show('room');
+  router.navigate(`/room/${room.id}`);
 }
 
 function loadRooms() {
@@ -239,6 +240,7 @@ export function leaveRoom() {
   });
 
   isJoining = false; // Reset join flag
-  pageManager.show('lobby');
+  router.navigate('/lobby');
   loadRooms(); // Just refresh the room list
+  startAutoRefresh(); // Resume auto-refresh
 }
