@@ -8,10 +8,19 @@ import { initLobby, leaveRoom } from './modules/lobby.js';
 import { appState } from './core/State.js';
 import { pageManager } from './core/PageManager.js';
 import { router } from './core/Router.js';
+import { waitForPreflightReady } from './modules/preflight.js';
 
 // Initialize the application
 (async function() {
   'use strict';
+
+  const preflightResult = await waitForPreflightReady();
+  if (!preflightResult.ok) {
+    console.error('[App] Preflight failed, halting bootstrap.', preflightResult.issues);
+    return;
+  }
+
+  console.log('[App] Preflight checks passed. Continuing bootstrap.');
 
   // Register pages early
   pageManager

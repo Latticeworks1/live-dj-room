@@ -8,6 +8,34 @@
   <script src="https://js.puter.com/v2/"></script>
 </head>
 <body>
+  <!-- Alert dialog semantics follow the WAI-ARIA Authoring Practices example:
+       https://www.w3.org/WAI/ARIA/apg/patterns/alertdialog/examples/alertdialog/ -->
+  <div id="preflight-overlay" class="preflight-overlay" hidden>
+    <div
+      class="preflight-card"
+      role="alertdialog"
+      aria-live="assertive"
+      aria-modal="true"
+      tabindex="-1"
+    >
+      <header class="preflight-card-header">
+        <p class="preflight-card-eyebrow">Preflight Scan</p>
+        <h2>Resolve blocking requirements before entering the room</h2>
+        <p class="preflight-card-subtitle">Checks are grouped so you can fix interface hooks, browser APIs, and environment constraints independently.</p>
+      </header>
+      <div class="preflight-legend" aria-hidden="true">
+        <span>Interface Hooks</span>
+        <span>Browser APIs</span>
+        <span>Runtime Environment</span>
+      </div>
+      <div class="preflight-grid" data-preflight-list></div>
+      <footer class="preflight-card-footer">
+        <p class="preflight-footnote">Stay on this page as you update settings—then rerun the scan.</p>
+        <button class="btn-retry-preflight" id="retry-preflight">Run checks again</button>
+      </footer>
+    </div>
+  </div>
+
   <!-- Login Page -->
   <div class="login-page">
     <div class="login-form">
