@@ -417,3 +417,4 @@ npm install              # Reinstalls Husky hooks
 - `STATUS.md` - Project status and roadmap
 - remmeber
 - alwys use github and the github rpreomit hooks chces
+- ALWAYS USE OUR DOMAIN AND GITHUB AND HOOKS
