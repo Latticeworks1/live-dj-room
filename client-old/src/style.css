@@ -11,6 +11,173 @@ body {
   overflow: hidden;
 }
 
+[hidden] {
+  display: none !important;
+}
+
+.preflight-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(8, 10, 37, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 9999;
+}
+
+.preflight-card {
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 32px;
+  max-width: 880px;
+  width: 100%;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Focus ring uses the :focus-visible pattern from the MDN example:
+ * https://developer.mozilla.org/en-US/docs/Web/CSS/:focus-visible#try_it
+ */
+.preflight-card:focus-visible {
+  outline: 3px solid #7c3aed;
+  outline-offset: 6px;
+}
+
+.preflight-card-header h2 {
+  margin: 4px 0;
+  color: #2d2a4a;
+  font-size: 1.75rem;
+}
+
+.preflight-card-eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.8rem;
+  color: #7e7aa3;
+}
+
+.preflight-card-subtitle {
+  color: #4f4c64;
+  max-width: 640px;
+}
+
+.preflight-legend {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #857db7;
+}
+
+.preflight-legend span {
+  padding-bottom: 4px;
+  border-bottom: 2px solid rgba(133, 125, 183, 0.4);
+}
+
+/* Responsive grid columns follow MDN's auto-fit card layout example:
+ * https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_grid_layout/Responsive_Design#auto-fit_and_auto-fill
+ */
+.preflight-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+.preflight-group {
+  border: 1px solid rgba(102, 126, 234, 0.35);
+  border-radius: 18px;
+  padding: 20px;
+  background: #f8f8ff;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.preflight-group-header h3 {
+  margin: 0;
+  color: #3c368d;
+  font-size: 1.1rem;
+}
+
+.preflight-group-header p {
+  margin: 6px 0 0;
+  color: #4f4c64;
+  font-size: 0.9rem;
+}
+
+.preflight-issue-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.preflight-issue-list li {
+  background: white;
+  border-radius: 12px;
+  border: 1px solid rgba(86, 104, 211, 0.25);
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.preflight-issue-list li strong {
+  color: #2f2b5c;
+}
+
+.preflight-issue-list li span {
+  font-size: 0.9rem;
+  color: #4f4c64;
+}
+
+.preflight-issue-list li a {
+  font-size: 0.85rem;
+  color: #5568d3;
+  text-decoration: underline;
+  width: fit-content;
+}
+
+.preflight-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.preflight-footnote {
+  color: #4f4c64;
+  font-size: 0.9rem;
+}
+
+.btn-retry-preflight {
+  padding: 14px 32px;
+  border: none;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.btn-retry-preflight:active {
+  transform: translateY(1px);
+}
+
 /* Login Page */
 .login-page {
   display: flex;
